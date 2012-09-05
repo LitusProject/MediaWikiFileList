@@ -1,19 +1,7 @@
 <?php
-/**
- * File List extension.
- *
- * Author: Jens Nyman <nymanjens.nj@gmail.com> (VTK Ghent)
- *
- * This extension implements a new tag, <filelist>, which generates a list of
- * all images or other media that was uploaded to the page. Also, the tag adds
- * an input field to add a new file.
- *
- * Usage:
- *     <filelist/>
- *
- */
 
-if (!defined('MEDIAWIKI')) die("Mediawiki not set");
+if ( !defined( 'MEDIAWIKI' ) )
+	die('This file is meant to be run inside MediaWiki');
 
 /****************** CHANGING GLOBAL SETTINGS ******************/
 /** Allow client-side caching of pages */
