@@ -1,4 +1,4 @@
-This MediaWiki extension implements a new tag, <filelist>, which generates a list of all images or other media uploaded to the page. An inputbox is also added which allows easy uploading of new files.
+This MediaWiki extension implements a new tag, &lt;filelist&gt;, which generates a list of all images or other media uploaded to the page. An inputbox is also added which allows easy uploading of new files.
 
 ## Installation
 In your terminal:
@@ -19,8 +19,9 @@ require_once("$IP/extensions/FileList/FileList.php");
 - This extension edits the allowed file extensions, disables MIME-type checking and disables the cache.
 
 ## Licensing
-This extension is licensed under the GNU General Public License v3.0 or, at your option, any later version of the GNU GPL.
+This extension is licensed under the GNU General Public License v3.0 or, at your option, any later version of the GNU GPL.  
+Copyright (C) 2012 - The Litus Project <https://github.com/LitusProject>
 
 ## Original source
-This project is a fork of the [FileList extension](https://code.google.com/p/mediawiki-filelist/) by Jens Nyman of VTK Ghent, which is licensed under the GPL v2.0 or later.
+This project is a fork of the [FileList extension](https://code.google.com/p/mediawiki-filelist/) by Jens Nyman of VTK Ghent, which is licensed under the GPL v2.0 or later.  
 Copyright (C) 2010 - Jens Nyman <nymanjens.nj@gmail.com>
