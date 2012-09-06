@@ -175,30 +175,30 @@ class FileList {
             }
         }
         
-        $output .= '
-            <table class="wikitable">
-                <tr>
-                    <th style="text-align: left">' . wfMessage( 'fl-heading-name' )->plain() . '</th>
-                    <th style="text-align: left">' . wfMessage( 'fl-heading-datetime' )->plain() . '</th>
-                    <th style="text-align: left">' . wfMessage( 'fl-heading-size' )->plain() . '</th>';
+        $output .=
+            '<table class="wikitable">'
+        .      '<tr>'
+        .          '<th style="text-align: left">' . wfMessage( 'fl-heading-name' )->plain() . '</th>'
+        .          '<th style="text-align: left">' . wfMessage( 'fl-heading-datetime' )->plain() . '</th>'
+        .          '<th style="text-align: left">' . wfMessage( 'fl-heading-size' )->plain() . '</th>';
         
         if( $descr_column )
-            $output .= '
-                    <th style="text-align: left">' . wfMessage( 'fl-heading-descr' )->plain() . '</th>';
+            $output .=
+                   '<th style="text-align: left">' . wfMessage( 'fl-heading-descr' )->plain() . '</th>';
         
         if( !$wgFileListAnonymous )
-            $output .= '
-                    <th style="text-align: left">' . wfMessage( 'fl-heading-user' )->plain() . '</th>';
+            $output .=
+                   '<th style="text-align: left">' . wfMessage( 'fl-heading-user' )->plain() . '</th>';
         
-        $output .= '
-                    <th></th>
-                </tr>';
+        $output .=
+        .          '<th></th>'
+        .      '</tr>';
                 
         $dateFormatter = DateFormatter::getInstance();
         
         foreach ( $files as $file ) {
-            $output .= '
-                <tr>';
+            $output .=
+               '<tr>';
             
             /* icon */
             $ext = self::_getFileExtension( $file->img_name );
@@ -206,8 +206,8 @@ class FileList {
                 $ext_img = $wgFileListIcons[$ext];
             else
                 $ext_img = 'default';
-            $output .= '
-                    <td><img src="' . $iconDir . $ext_img . '.gif" alt="" />&nbsp;';
+            $output .=
+                   '<td><img src="' . $iconDir . $ext_img . '.gif" alt="" />&nbsp;';
                 
             /* filename */
             $imgName_wUnderscores = substr( $file->img_name, strlen( $pageTitle ) + strlen( $wgFileListSeparator) );
@@ -218,40 +218,40 @@ class FileList {
             $descr = $file->img_description;
             if($descr)
                 $imgName = $descr;
-            $output .= '
-                        <a href="' . htmlspecialchars( $link ) . '">' . htmlspecialchars( $imgName ) . '</a></td>';
+            $output .=
+                       '<a href="' . htmlspecialchars( $link ) . '">' . htmlspecialchars( $imgName ) . '</a></td>';
             
             /* time */
             // converts (database-dependent) timestamp to unix format, which can be used in date()
             $timestamp = wfTimestamp( TS_UNIX, $file->img_timestamp );
-            $output .= '
-                    <td>' . date( 'Y-m-d H:i:s', $timestamp ) . '</td>';
+            $output .=
+                   '<td>' . date( 'Y-m-d H:i:s', $timestamp ) . '</td>';
                 
             /* size */
             $size = self::_formatFileSize( $file->img_size );
-            $output .= '
-                    <td>' . $size . '</td>';
+            $output .=
+                   '<td>' . $size . '</td>';
                 
             /* description */
             if($descr_column) {
                 $article = new Article ( Title::newFromText( 'File:' . $file->img_name ) );
                 $descr = $parser->recursiveTagParse( $article->getContent() );
                 $descr = str_replace( "\n" , ' ', $descr );
-                $output .= '
-                    <td>' . htmlspecialchars( $descr ) . '</td>';
+                $output .=
+                   '<td>' . htmlspecialchars( $descr ) . '</td>';
             }
                 
             /* username */
             if( !$wgFileListAnonymous ) {
-                $output .= '
-                    <td>' . htmlspecialchars( $file->img_user_text ) . '</td>';
+                $output .=
+                   '<td>' . htmlspecialchars( $file->img_user_text ) . '</td>';
             }
                 
             /** edit and delete **/
-            $output .= '
-                    <td><table class="noborder" cellspacing="2">
-                            <tr>
-                                ';
+            $output .=
+                   '<td>'
+			.		   '<table class="noborder" cellspacing="2">'
+            .              '<tr>';
             // edit
             $output .= sprintf(
                                 '<td><a title="%s" href="%s" class="small_edit_button">%s</a></td>',
@@ -270,16 +270,16 @@ class FileList {
                                    wfMessage( 'fl-delete-confirm', $imgName )->plain(),
                                    wfMessage( 'fl-delete' )->plain()
                                );
-            $output .= '
-                            </tr>
-                        </table></td>';
+            $output .=
+                           '</tr>'
+            .          '</table></td>';
                 
-            $output .= '
-                </tr>';
+            $output .=
+               '</tr>';
         }
         
-        $output .= '
-            </table>';
+        $output .=
+           '</table>';
     }
     
     private static function _printForm( $pageTitle, &$output ) {
@@ -294,28 +294,32 @@ class FileList {
         
         $uploadLabel = wfMessage( $wgFileListAnonymous ? 'fl-upload-file-anonymously' : 'fl-upload-file' )->plain();
         $prefix = self::_getFilePrefix( $pageTitle );
+		$token = $wgUser->getEditToken();
         
-        $output .= '
-            <div id="filelist_error" style="color: red"></div>
-            <form action="' . $action . '" method="post" name="filelistform" class="visualClear" enctype="multipart/form-data" id="mw-upload-form">
-                <table class="wikitable" style="padding: 0; margin:0;">
-                    <tr>
-                        <td style="border: none;">
-<input id="wpUploadFile" name="wpUploadFile" type="file" />
-<input id="wpDestFile" name="wpDestFile" type="hidden" value="" />
-<input id="wpWatchthis" name="wpWatchthis" type="hidden" value="1" />
-<input id="wpIgnoreWarning" name="wpIgnoreWarning" type="hidden" value="1" />
-<input id="title" type="hidden" value="Special:Upload" name="title" />
-<input id="wpDestFileWarningAck" type="hidden" name="wpDestFileWarningAck" />
-<input id="wpEditToken" name="wpEditToken" type="hidden" value="' . $wgUser->getEditToken() . '" />
-                        </td>
-                        <td style="border: none;">
-<input type="submit" value="' . $uploadLabel . '" name="wpUpload" title="Upload" class="mw-htmlform-submit" onclick="return fileListSubmit(\'' . $prefix . '\')" />
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            <br />';
+        $output .=
+        .  '<div id="filelist_error" style="color: red"></div>'
+		.  '<form action="' . $action . '" method="post" name="filelistform" '
+		.					'class="visualClear" enctype="multipart/form-data" id="mw-upload-form">'
+        .       '<table class="wikitable" style="padding: 0; margin:0;">'
+        .          '<tr>'
+        .              '<td style="border: none;">'
+		.				   '<input id="wpUploadFile" name="wpUploadFile" type="file" />'
+		.				   '<input id="wpDestFile" name="wpDestFile" type="hidden" value="" />'
+		.				   '<input id="wpWatchthis" name="wpWatchthis" type="hidden" value="1" />'
+		.				   '<input id="wpIgnoreWarning" name="wpIgnoreWarning" type="hidden" value="1" />'
+		.				   '<input id="title" type="hidden" value="Special:Upload" name="title" />'
+		.				   '<input id="wpDestFileWarningAck" type="hidden" name="wpDestFileWarningAck" />'
+		.				   '<input id="wpEditToken" name="wpEditToken" type="hidden" value="' . $token . '" />'
+        .              '</td>'
+        .              '<td style="border: none;">'
+		.				   '<input type="submit" value="' . $uploadLabel . '" name="wpUpload" '
+		.										'title="Upload" class="mw-htmlform-submit" '
+		.										'onclick="return fileListSubmit(\'' . $prefix . '\')" />'
+        .              '</td>'
+        .          '</tr>'
+        .      '</table>'
+		.  '</form>'
+		.  '<br />';
     }
     
     public static function onUnknownAction( $action, Page $page ) {
