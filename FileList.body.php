@@ -157,7 +157,7 @@ class FileList {
 		global $wgFileListIcons, $wgFileListAnonymous, $wgFileListSeparator;
 		
 		if ( count( $files ) == 0 ) {
-			$output .= '<p>' . wfMessage( 'fl_empty_list' )->plain() . '</p>';
+			$output .= '<p>' . wfMessage( 'fl-empty-list' )->plain() . '</p>';
 			return;
 		}
 		
@@ -178,17 +178,17 @@ class FileList {
 		$output .= '
 			<table class="wikitable">
 				<tr>
-        			<th style="text-align: left">' . wfMessage( 'fl_heading_name' )->plain() . '</th>
-        			<th style="text-align: left">' . wfMessage( 'fl_heading_datetime' )->plain() . '</th>
-        			<th style="text-align: left">' . wfMessage( 'fl_heading_size' )->plain() . '</th>';
+        			<th style="text-align: left">' . wfMessage( 'fl-heading-name' )->plain() . '</th>
+        			<th style="text-align: left">' . wfMessage( 'fl-heading-datetime' )->plain() . '</th>
+        			<th style="text-align: left">' . wfMessage( 'fl-heading-size' )->plain() . '</th>';
 		
         if( $descr_column )
             $output .= '
-					<th style="text-align: left">' . wfMessage( 'fl_heading_descr' )->plain() . '</th>';
+					<th style="text-align: left">' . wfMessage( 'fl-heading-descr' )->plain() . '</th>';
 		
         if( !$wgFileListAnonymous )
             $output .= '
-					<th style="text-align: left">' . wfMessage( 'fl_heading_user' )->plain() . '</th>';
+					<th style="text-align: left">' . wfMessage( 'fl-heading-user' )->plain() . '</th>';
 		
         $output .= '
 					<th></th>
@@ -255,9 +255,9 @@ class FileList {
             // edit
             $output .= sprintf(
 								'<td><a title="%s" href="%s" class="small_edit_button">%s</a></td>',
-                               	wfMessage( 'fl_edit' )->plain(),
+                               	wfMessage( 'fl-edit' )->plain(),
                                	htmlspecialchars( Title::newFromText( 'File:' . $dataobject->img_name )->getFullUrl() ),
-                               	wfMessage( 'fl_edit' )->plain()
+                               	wfMessage( 'fl-edit' )->plain()
 						   );
             // delete
             if( self::_canDeleteFile( $dataobject->img_name, true ) )
@@ -265,10 +265,10 @@ class FileList {
 								'<td><a title="%s" href="?file=%s&action=delete_file" class="small_remove_button" ' .
                                    'onclick="return confirm(\'%s\')">' .
                                    '%s</a></td>',
-                                   wfMessage( 'fl_delete' )->plain(),
+                                   wfMessage( 'fl-delete' )->plain(),
                                    htmlspecialchars( urlencode( $imgName ) ),
-								   wfMessage( 'fl_delete_confirm', $imgName )->plain(),
-                                   wfMessage( 'fl_delete' )->plain()
+								   wfMessage( 'fl-delete-confirm', $imgName )->plain(),
+                                   wfMessage( 'fl-delete' )->plain()
 							   );
             $output .= '
 							</tr>
@@ -292,7 +292,7 @@ class FileList {
 			$action .= '?uploader=filelist';
 		}
 		
-		$uploadLabel = wfMessage( $wgFileListAnonymous ? 'fl_upload_file_anonymously' : 'fl_upload_file' )->plain();
+		$uploadLabel = wfMessage( $wgFileListAnonymous ? 'fl-upload-file-anonymously' : 'fl-upload-file' )->plain();
 		$prefix = self::_getFilePrefix( $pageTitle );
 		
         $output .= '

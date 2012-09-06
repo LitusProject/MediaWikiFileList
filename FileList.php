@@ -93,7 +93,7 @@ $wgResourceModules['ext.FileList'] = array(
 	'scripts'		=> 'ext.FileList.js',
 	'styles'		=> 'ext.FileList.css',
 	'messages'		=> array(
-		'fl_empty_file'
+		'fl-empty-file'
 	),
 	'position'		=> 'bottom',
 	'localBasePath'	=> dirname( __FILE__ ) . '/modules',

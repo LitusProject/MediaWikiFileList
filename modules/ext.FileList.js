@@ -2,7 +2,7 @@ window.fileListSubmit = function(prefix) {
     form = document.filelistform;
     filename = getNameFromPath(form.wpUploadFile.value);
     if( filename == "" ) {
-        fileListError(mw.msg('fl_empty_file'));
+        fileListError(mw.msg('fl-empty-file'));
         return false;
     }
     form.wpDestFile.value = prefix + filename;
