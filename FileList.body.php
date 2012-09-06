@@ -329,7 +329,7 @@ class FileList {
 		self::_disableCache();
 		$parser->disableCache();
 		
-//		$wgOut->addModules( 'ext.FileList' );
+		$wgOut->addModules( 'ext.FileList' );
 		
 		$files = self::_listFilesWithPrefix( self::_getFilePrefix( $pageTitle ) );
 		

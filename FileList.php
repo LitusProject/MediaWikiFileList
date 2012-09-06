@@ -105,9 +105,6 @@ function wfFileListInit( Parser &$parser) {
 	// add the parser hook
 	$parser->setFunctionHook( 'filelist', 'FileList::parserFunction' );
 	
-	global $wgOut;
-	$wgOut->addModules( 'ext.FileList' );
-	
 	// return control to MW
 	return true;
 }
