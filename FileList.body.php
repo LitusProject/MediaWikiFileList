@@ -3,6 +3,9 @@
 if ( !defined( 'MEDIAWIKI' ) )
 	die( 'This file is meant to be run inside a MediaWiki installation' );
 
+global $IP;
+require_once( $IP . '/includes/Exception.php' );
+
 class FileList {
 
 	private static function _disableCache() {
@@ -106,7 +109,9 @@ class FileList {
 			if ( $noError )
 				return false;
 			else
-				throw new UserNotLoggedIn( 'fl-notloggedin' );
+				// throw new UserNotLoggedIn( 'fl-notloggedin' );
+				// ^-- will work once this class hits stable, instead of trunk
+				throw new ErrorPageError( 'fl-nologin-title', 'fl-nologin-text' );
 		}
 		
 		// A user can delete his/her own files

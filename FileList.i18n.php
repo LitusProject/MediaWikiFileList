@@ -27,7 +27,8 @@ $messages['en'] = array(
   'fl-file-invalid'			   => 'Invalid filename: $1',
   'fl-not-allowed-to-delete'   => 'You\'re not allowed to delete file $1',
   'fl-readonly'				   => 'You can\'t upload new files because the wiki is currently read-only.',
-  'fl-notloggedin'			   => 'You have to log in before deleting any files.',
+  'fl-nologin-title'		   => 'You have to be logged in to do that',
+  'fl-nologin-text'			   => 'You have to [[Special:Userlogin|log in]] before deleting any files.',
   'fl-not-owner-title'		   => 'Permission Error',
   'fl-not-owner-text'		   => 'You\'re not allowed to delete file "$1".',
   // reasons for actions
