@@ -166,8 +166,8 @@ class FileList {
 		
         // check if we need to add a description column
         $descr_column = false;
-        foreach ( $files as $dataobject ) {
-            $article = new Article ( Title::newFromText( 'File:' . $dataobject->img_name ) );
+        foreach ( $files as $file ) {
+            $article = new Article ( Title::newFromText( 'File:' . $file->img_name ) );
             $descr = $article->getContent();
             if( trim( $descr ) != '' ) {
                 $descr_column = true;
@@ -201,7 +201,7 @@ class FileList {
 				<tr>';
 			
             /* icon */
-            $ext = self::_getFileExtension( $dataobject->img_name );
+            $ext = self::_getFileExtension( $file->img_name );
             if(isset( $wgFileListIcons[$ext]) )
                 $ext_img = $wgFileListIcons[$ext];
             else
@@ -210,12 +210,12 @@ class FileList {
 					<td><img src="' . $iconDir . $ext_img . '.gif" alt="" />&nbsp;';
                 
             /* filename */
-            $imgName_wUnderscores = substr( $dataobject->img_name, strlen( $pageTitle ) + strlen( $wgFileListSeparator) );
+            $imgName_wUnderscores = substr( $file->img_name, strlen( $pageTitle ) + strlen( $wgFileListSeparator) );
             $imgName = str_replace( '_', ' ', $imgName_wUnderscores );
             $link = '?action=open&file=' . urlencode( $imgName_wUnderscores );
 			// TODO add download link?
             // if description exists, use this as filename
-            $descr = $dataobject->img_description;
+            $descr = $file->img_description;
             if($descr)
                 $imgName = $descr;
             $output .= '
@@ -223,18 +223,18 @@ class FileList {
             
             /* time */
             // converts (database-dependent) timestamp to unix format, which can be used in date()
-            $timestamp = wfTimestamp( TS_UNIX, $dataobject->img_timestamp );
+            $timestamp = wfTimestamp( TS_UNIX, $file->img_timestamp );
             $output .= '
 					<td>' . date( 'Y-m-d H:i:s', $timestamp ) . '</td>';
                 
             /* size */
-            $size = self::_formatFileSize( $dataobject->img_size );
+            $size = self::_formatFileSize( $file->img_size );
             $output .= '
 					<td>' . $size . '</td>';
                 
             /* description */
             if($descr_column) {
-                $article = new Article ( Title::newFromText( 'File:' . $dataobject->img_name ) );
+                $article = new Article ( Title::newFromText( 'File:' . $file->img_name ) );
                 $descr = $parser->recursiveTagParse( $article->getContent() );
                 $descr = str_replace( "\n" , ' ', $descr );
                 $output .= '
@@ -244,7 +244,7 @@ class FileList {
             /* username */
             if( !$wgFileListAnonymous ) {
                 $output .= '
-					<td>' . htmlspecialchars( $dataobject->img_user_text ) . '</td>';
+					<td>' . htmlspecialchars( $file->img_user_text ) . '</td>';
             }
                 
             /** edit and delete **/
@@ -256,11 +256,11 @@ class FileList {
             $output .= sprintf(
 								'<td><a title="%s" href="%s" class="small_edit_button">%s</a></td>',
                                	wfMessage( 'fl-edit' )->plain(),
-                               	htmlspecialchars( Title::newFromText( 'File:' . $dataobject->img_name )->getFullUrl() ),
+                               	htmlspecialchars( Title::newFromText( 'File:' . $file->img_name )->getFullUrl() ),
                                	wfMessage( 'fl-edit' )->plain()
 						   );
             // delete
-            if( self::_canDeleteFile( $dataobject->img_name, true ) )
+            if( self::_canDeleteFile( $file->img_name, true ) )
                 $output .= sprintf(
 								'<td><a title="%s" href="?file=%s&action=delete_file" class="small_remove_button" ' .
                                    'onclick="return confirm(\'%s\')">' .
@@ -403,7 +403,7 @@ class FileList {
 		return true;
 	}
 	
-	public static function onMovePage( UploadForm $form, Title $oldTitle, Title $newTitle ) {
+	public static function onMovePage( MovePageForm &$form, Title &$oldTitle, Title &$newTitle ) {
 		$files = self::_listFilesWithPrefix( self::_getFilePrefix( $oldTitle->getText() ) );
 		$pos = strlen( $oldTitle->getText() );
 		$newPrefix = str_replace( ' ', '_', $newTitle->getText() );
