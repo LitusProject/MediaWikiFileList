@@ -342,7 +342,7 @@ class FileList {
 		    // delete file
 			$repo = RepoGroup::singleton()->getLocalRepo();
 			$image = LocalFile::newFromTitle( Title::newFromText( 'File:' . self::_getFilePrefix( $pageTitle) . $filename ), $repo );
-		    $image->delete( wfMessage( 'fl-delete-action' )->plain() );
+		    $image->delete( wfMessage( 'fl-delete-action' )->inContentLanguage()->plain() );
 			return false;
 		}
 		
@@ -414,8 +414,10 @@ class FileList {
 			$newFile = Title::newFromText( 'File:' . $newName );
 			
 			// move file
-			$mover = new MovePageForm( $oldFile, $newFile );
-			$mover->reason = wfMessage( 'fl-move-reason', $oldTitle->getText(), $newTitle->getText() )->plain();
+			$mover = new MovePageForm();
+			$mover->oldTitle = $oldFile;
+			$mover->newTitle = $newFile;
+			$mover->reason = wfMessage( 'fl-move-reason', $oldTitle->getText(), $newTitle->getText() )->inContentLanguage()->plain();
 			$mover->doSubmit();
 		}
 		
