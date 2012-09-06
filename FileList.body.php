@@ -80,20 +80,44 @@ class FileList {
 		return round( $size, 2 ) . ' ' . $prefix[$i];
 	}
 	
-	private static function _canDeleteFile( $filename ) {
+	private static function _canDeleteFile( $filename, $noError = false ) {
 		global $wgUser;
+		
+		if ( $wgUser->isBlocked() ) {
+			if ( $noError )
+				return false;
+			else
+				throw new UserBlockedError( $wgUser->getBlock() );
+		}
+		
+		if ( wfReadOnly() ) {
+			if ( $noError )
+				return false;
+			else
+				throw new ReadOnlyError();
+		}
 		
 		// Users with the fl-edit-all right set can delete all files
 		if ( $wgUser->isAllowed( 'fl-delete-all' ) )
 			return true;
 		
 		// Anonymous users can't delete any files
-		if ( $wgUser->isAnon() )
-			return false;
+		if ( $wgUser->isAnon() ) {
+			if ( $noError )
+				return false;
+			else
+				throw new UserNotLoggedIn( 'fl-notloggedin' );
+		}
 		
 		// A user can delete his/her own files
 		$file = wfFindFile( $filename );
-		return $file->getUser() == $wgUser->getName();
+		if ( $file->getUser() != $wgUser->getName() ) {
+			if ( $noError )
+				return false;
+			else
+				throw new ErrorPageError( 'fl-not-owner-title', wfMessage( 'fl-not-owner-text', $filename ) );
+		}
+		return true;
 	}
 	
 	private static function _openFile( $page, $filename ) {
@@ -231,7 +255,7 @@ class FileList {
                                	wfMessage( 'fl_edit' )->plain()
 						   );
             // delete
-            if( self::_canDeleteFile( $dataobject->img_name ) )
+            if( self::_canDeleteFile( $dataobject->img_name, true ) )
                 $output .= sprintf(
 								'<td><a title="%s" href="?file=%s&action=delete_file" class="small_remove_button" ' .
                                    'onclick="return confirm(\'%s\')">' .
@@ -254,7 +278,7 @@ class FileList {
 	}
 	
 	private static function _printForm( $pageTitle, &$output ) {
-		global $wgFileListAnonymous;
+		global $wgFileListAnonymous, $wgUser;
 		
 		$action = Title::newFromText( 'Special:Upload' )->getFullUrl();
 		if ( preg_match( '/\?/', $action ) ) {
@@ -274,10 +298,11 @@ class FileList {
 						<td style="border: none;">
 <input id="wpUploadFile" name="wpUploadFile" type="file" />
 <input id="wpDestFile" name="wpDestFile" type="hidden" value="" />
-<input id="wpWatchthis" name="wpWatchthis" type="hidden"/>
+<input id="wpWatchthis" name="wpWatchthis" type="hidden" value="1" />
 <input id="wpIgnoreWarning" name="wpIgnoreWarning" type="hidden" value="1" />
 <input id="title" type="hidden" value="Special:Upload" name="title" />
 <input id="wpDestFileWarningAck" type="hidden" name="wpDestFileWarningAck" />
+<input id="wpEditToken" name="wpEditToken" type="hidden" value="' . $wgUser->getEditToken() . '" />
 						</td>
 						<td style="border: none;">
 <input type="submit" value="' . $uploadLabel . '" name="wpUpload" title="Upload" class="mw-htmlform-submit" onclick="return fileListSubmit(\'' . $prefix . '\')" />

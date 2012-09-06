@@ -26,6 +26,10 @@ $messages['en'] = array(
   'fl-file-doesnt-exist'	   => 'File doesn\'t exist.',
   'fl-file-invalid'			   => 'Invalid filename: $1',
   'fl-not-allowed-to-delete'   => 'You\'re not allowed to delete file $1',
+  'fl-readonly'				   => 'You can\'t upload new files because the wiki is currently read-only.',
+  'fl-notloggedin'			   => 'You have to log in before deleting any files.',
+  'fl-not-owner-title'		   => 'Permission Error',
+  'fl-not-owner-text'		   => 'You\'re not allowed to delete file "$1".',
   // reasons for actions
   'fl-delete-action'		   => 'FileList delete action',
   'fl-move-reason'			   => 'Page "$1" moved to "$2"'
@@ -48,6 +52,9 @@ $messages['nl'] = array(
   'fl_heading_datetime'        => 'Datum',
   // credits
   'fl_credits_desc'            => 'Genereert dynamische file-lijst met uploadformulier bij het invoeren van <code>&lt;filelist /&gt;</code>',
+  // errors
+  'fl-not-owner-title'		   => 'Permission Error',
+  'fl-not-owner-text'		   => 'You\'re not allowed to delete file "$1".'
 );
 
 $messages['fr'] = array(
