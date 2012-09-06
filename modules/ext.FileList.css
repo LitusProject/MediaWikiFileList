@@ -6,24 +6,24 @@ table.noborder, table.noborder td, table.noborder tr {
 }
 /***** buttons *****/
 a.small_remove_button, a.small_edit_button {
-	display: block;
-	overflow: hidden;
-	text-indent: -5000px;
-	background-repeat: no-repeat;
-	height: 11px;
-	background-image: url(../icons/buttons_small_edit.gif);
+    display: block;
+    overflow: hidden;
+    text-indent: -5000px;
+    background-repeat: no-repeat;
+    height: 11px;
+    background-image: url(../icons/buttons_small_edit.gif);
 }
 a.small_remove_button {
-	width: 11px;
-	background-position: 0 0;
+    width: 11px;
+    background-position: 0 0;
 }
 a.small_remove_button:hover {
-	background-position: 0 -11px;
+    background-position: 0 -11px;
 }
 a.small_edit_button {
-	width: 11px;
-	background-position: -21px 0;
+    width: 11px;
+    background-position: -21px 0;
 }
 a.small_edit_button:hover {
-	background-position: -21px -11px;
+    background-position: -21px -11px;
 }

@@ -3,9 +3,9 @@
 $magicWords = array();
 
 $magicWords['en'] = array(
-	'filelist' => array( 0, 'filelist' )
+    'filelist' => array( 0, 'filelist' )
 );
 
 $magicWords['nl'] = array(
-	'filelist' => array( 0, 'bestandenlijst' )
+    'filelist' => array( 0, 'bestandenlijst' )
 );
