@@ -11,9 +11,9 @@ $messages['en'] = array(
   'fl_upload_file'             => 'Upload file',
   'fl_upload_file_anonymously' => 'Upload file anonymously',
   'fl_empty_file'              => 'Select a file please',
-  'fl_edit'                    => "Edit",
-  'fl_delete'                  => "Delete",
-  'fl_delete_confirm'          => "Are you sure you want to delete \'%s\'?",
+  'fl_edit'                    => 'Edit',
+  'fl_delete'                  => 'Delete',
+  'fl_delete_confirm'          => 'Are you sure you want to delete "$1"?',
   // Table column headings
   'fl_heading_name'            => 'Filename',
   'fl_heading_descr'           => 'Description',
@@ -22,6 +22,13 @@ $messages['en'] = array(
   'fl_heading_datetime'        => 'Date',
   // credits
   'fl_credits_desc'            => 'Generates a dynamic file-list at the insertion of <code>&lt;filelist /&gt;</code>',
+  // errors
+  'fl-file-doesnt-exist'	   => 'File doesn\'t exist.',
+  'fl-file-invalid'			   => 'Invalid filename: $1',
+  'fl-not-allowed-to-delete'   => 'You\'re not allowed to delete file $1',
+  // reasons for actions
+  'fl-delete-action'		   => 'FileList delete action',
+  'fl-move-reason'			   => 'Page "$1" moved to "$2"'
 );
 
 $messages['nl'] = array(
@@ -32,7 +39,7 @@ $messages['nl'] = array(
   'fl_empty_file'              => 'U hebt nog geen bestand ingevoegd',
   'fl_edit'                    => "Bewerken",
   'fl_delete'                  => "Verwijderen",
-  'fl_delete_confirm'          => "Bent u zeker dat u \'%s\' wil verwijderen?",
+  'fl_delete_confirm'          => 'Bent u zeker dat u "$1" wil verwijderen?',
   // Table column headings
   'fl_heading_name'            => 'Bestandsnaam',
   'fl_heading_descr'           => 'Omschrijving',
