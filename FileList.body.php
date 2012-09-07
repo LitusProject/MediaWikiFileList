@@ -191,7 +191,7 @@ class FileList {
                    '<th style="text-align: left">' . wfMessage( 'fl-heading-user' )->plain() . '</th>';
         
         $output .=
-        .          '<th></th>'
+                   '<th></th>'
         .      '</tr>';
                 
         $dateFormatter = DateFormatter::getInstance();
@@ -297,7 +297,7 @@ class FileList {
 		$token = $wgUser->getEditToken();
         
         $output .=
-        .  '<div id="filelist_error" style="color: red"></div>'
+           '<div id="filelist_error" style="color: red"></div>'
 		.  '<form action="' . $action . '" method="post" name="filelistform" '
 		.					'class="visualClear" enctype="multipart/form-data" id="mw-upload-form">'
         .       '<table class="wikitable" style="padding: 0; margin:0;">'
