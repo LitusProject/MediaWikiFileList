@@ -58,16 +58,16 @@ class FileList {
         preg_match( '/[^?]*/', $filePath, $matches );
         return pathinfo( $matches[0], PATHINFO_EXTENSION );
     }
-	
-	private static function _getUniqueFilePart() {
-		// the timestamp of the request
-		return $_SERVER['REQUEST_TIME'];
-	}
-	
-	private static function _getCleanFileName( $name ) {
-		$ext = self::_getFileExtension( $name );
-		return preg_replace( '/\.([^.]*)\.' . $ext . '$/', '.' . $ext, $name );
-	}
+    
+    private static function _getUniqueFilePart() {
+        // the timestamp of the request
+        return $_SERVER['REQUEST_TIME'];
+    }
+    
+    private static function _getCleanFileName( $name ) {
+        $ext = self::_getFileExtension( $name );
+        return preg_replace( '/\.([^.]*)\.' . $ext . '$/', '.' . $ext, $name );
+    }
     
     /*
      * Adapted from http://aidanlister.com/2004/04/human-readable-file-sizes/
@@ -263,7 +263,7 @@ class FileList {
             /** edit and delete **/
             $output .=
                    '<td>'
-			.		   '<table class="noborder" cellspacing="2">'
+            .          '<table class="noborder" cellspacing="2">'
             .              '<tr>';
             // edit
             $output .= sprintf(
@@ -307,33 +307,33 @@ class FileList {
         
         $uploadLabel = wfMessage( $wgFileListAnonymous ? 'fl-upload-file-anonymously' : 'fl-upload-file' )->plain();
         $prefix = self::_getFilePrefix( $pageTitle );
-		$token = $wgUser->getEditToken();
-		$unique = self::_getUniqueFilePart();
+        $token = $wgUser->getEditToken();
+        $unique = self::_getUniqueFilePart();
         
         $output .=
            '<div id="filelist_error" style="color: red"></div>'
-		.  '<form action="' . $action . '" method="post" name="filelistform" '
-		.					'class="visualClear" enctype="multipart/form-data" id="mw-upload-form">'
+        .  '<form action="' . $action . '" method="post" name="filelistform" '
+        .                   'class="visualClear" enctype="multipart/form-data" id="mw-upload-form">'
         .       '<table class="wikitable" style="padding: 0; margin:0;">'
         .          '<tr>'
         .              '<td style="border: none;">'
-		.				   '<input id="wpUploadFile" name="wpUploadFile" type="file" />'
-		.				   '<input id="wpDestFile" name="wpDestFile" type="hidden" value="" />'
-		.				   '<input id="wpWatchthis" name="wpWatchthis" type="hidden" value="1" />'
-		.				   '<input id="wpIgnoreWarning" name="wpIgnoreWarning" type="hidden" value="1" />'
-		.				   '<input id="title" type="hidden" value="Special:Upload" name="title" />'
-		.				   '<input id="wpDestFileWarningAck" type="hidden" name="wpDestFileWarningAck" />'
-		.				   '<input id="wpEditToken" name="wpEditToken" type="hidden" value="' . $token . '" />'
+        .                  '<input id="wpUploadFile" name="wpUploadFile" type="file" />'
+        .                  '<input id="wpDestFile" name="wpDestFile" type="hidden" value="" />'
+        .                  '<input id="wpWatchthis" name="wpWatchthis" type="hidden" value="1" />'
+        .                  '<input id="wpIgnoreWarning" name="wpIgnoreWarning" type="hidden" value="1" />'
+        .                  '<input id="title" type="hidden" value="Special:Upload" name="title" />'
+        .                  '<input id="wpDestFileWarningAck" type="hidden" name="wpDestFileWarningAck" />'
+        .                  '<input id="wpEditToken" name="wpEditToken" type="hidden" value="' . $token . '" />'
         .              '</td>'
         .              '<td style="border: none;">'
-		.				   '<input type="submit" value="' . $uploadLabel . '" name="wpUpload" '
-		.										'title="Upload" class="mw-htmlform-submit" '
-		.										'onclick="return fileListSubmit(\'' . $prefix . '\', \'' . $unique . '\')" />'
+        .                  '<input type="submit" value="' . $uploadLabel . '" name="wpUpload" '
+        .                                       'title="Upload" class="mw-htmlform-submit" '
+        .                                       'onclick="return fileListSubmit(\'' . $prefix . '\', \'' . $unique . '\')" />'
         .              '</td>'
         .          '</tr>'
         .      '</table>'
-		.  '</form>'
-		.  '<br />';
+        .  '</form>'
+        .  '<br />';
     }
     
     public static function onUnknownAction( $action, Page $page ) {
