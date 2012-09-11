@@ -161,13 +161,13 @@ class FileList {
             die( wfMessage( 'fl-file-doesnt-exist' )->plain() );
         
         header( 'Content-type: application/' . self::_getFileExtension( $filename ) );
-        header( 'Content-Disposition: attachment; filename="' . $filename . '"');
+        header( 'Content-Disposition: attachment; filename="' . self::_getCleanFileName( $filename ) . '"');
         readfile( $file->getLocalRefPath() );
         exit();
     }
     
     private static function _printTable( $pageTitle, $files, &$output, &$parser ) {
-        global $wgFileListIcons, $wgFileListAnonymous, $wgFileListSeparator;
+        global $wgFileListIcons, $wgFileListAnonymous, $wgFileListSeparator, $wgFileListForceDownload;
         
         if ( count( $files ) == 0 ) {
             $output .= '<p>' . wfMessage( 'fl-empty-list' )->plain() . '</p>';
@@ -225,8 +225,8 @@ class FileList {
             /* filename */
             $imgName_wUnderscores = substr( $file->img_name, strlen( $pageTitle ) + strlen( $wgFileListSeparator) );
             $imgName = str_replace( '_', ' ', $imgName_wUnderscores );
-            $link = '?action=open&file=' . urlencode( $imgName_wUnderscores );
-            // TODO add download link?
+            $link = '?action=' . ( $wgFileListForceDownload ? 'download' : 'open' )
+                    . '&file=' . urlencode( $imgName_wUnderscores );
             // if description exists, use this as filename
             $descr = $file->img_description;
             if($descr)
