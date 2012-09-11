@@ -3,7 +3,10 @@
 if ( !defined( 'MEDIAWIKI' ) )
     die( 'This file is meant to be run inside a MediaWiki installation' );
 
+// This is not the global scope (!)
 global $IP;
+
+// We're throwing exceptions, that's right
 require_once( $IP . '/includes/Exception.php' );
 
 class FileList {
@@ -55,6 +58,16 @@ class FileList {
         preg_match( '/[^?]*/', $filePath, $matches );
         return pathinfo( $matches[0], PATHINFO_EXTENSION );
     }
+	
+	private static function _getUniqueFilePart() {
+		// the timestamp of the request
+		return $_SERVER['REQUEST_TIME'];
+	}
+	
+	private static function _getCleanFileName( $name ) {
+		$ext = self::_getFileExtension( $name );
+		return preg_replace( '/\.([^.]*)\.' . $ext . '$/', '.' . $ext, $name );
+	}
     
     /*
      * Adapted from http://aidanlister.com/2004/04/human-readable-file-sizes/
@@ -219,7 +232,7 @@ class FileList {
             if($descr)
                 $imgName = $descr;
             $output .=
-                       '<a href="' . htmlspecialchars( $link ) . '">' . htmlspecialchars( $imgName ) . '</a></td>';
+                       '<a href="' . htmlspecialchars( $link ) . '">' . htmlspecialchars( self::_getCleanFileName( $imgName ) ) . '</a></td>';
             
             /* time */
             // converts (database-dependent) timestamp to unix format, which can be used in date()
@@ -295,6 +308,7 @@ class FileList {
         $uploadLabel = wfMessage( $wgFileListAnonymous ? 'fl-upload-file-anonymously' : 'fl-upload-file' )->plain();
         $prefix = self::_getFilePrefix( $pageTitle );
 		$token = $wgUser->getEditToken();
+		$unique = self::_getUniqueFilePart();
         
         $output .=
            '<div id="filelist_error" style="color: red"></div>'
@@ -314,7 +328,7 @@ class FileList {
         .              '<td style="border: none;">'
 		.				   '<input type="submit" value="' . $uploadLabel . '" name="wpUpload" '
 		.										'title="Upload" class="mw-htmlform-submit" '
-		.										'onclick="return fileListSubmit(\'' . $prefix . '\')" />'
+		.										'onclick="return fileListSubmit(\'' . $prefix . '\', \'' . $unique . '\')" />'
         .              '</td>'
         .          '</tr>'
         .      '</table>'

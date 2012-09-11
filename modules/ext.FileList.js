@@ -1,11 +1,11 @@
-window.fileListSubmit = function(prefix) {
+window.fileListSubmit = function(prefix, unique) {
     form = document.filelistform;
     filename = getNameFromPath(form.wpUploadFile.value);
     if( filename == "" ) {
         fileListError(mw.msg('fl-empty-file'));
         return false;
     }
-    form.wpDestFile.value = prefix + filename;
+    form.wpDestFile.value = (prefix + filename).replace(/\.([^.]*)$/, '.' + unique + '.$1');
     return true;
 }
 
