@@ -167,7 +167,7 @@ class FileList {
     }
     
     private static function _printTable( $pageTitle, $files, &$output, &$parser ) {
-        global $wgFileListIcons, $wgFileListAnonymous, $wgFileListSeparator, $wgFileListForceDownload;
+        global $wgFileListIcons, $wgFileListAnonymous, $wgFileListSeparator;
         
         if ( count( $files ) == 0 ) {
             $output .= '<p>' . wfMessage( 'fl-empty-list' )->plain() . '</p>';
@@ -225,8 +225,7 @@ class FileList {
             /* filename */
             $imgName_wUnderscores = substr( $file->img_name, strlen( $pageTitle ) + strlen( $wgFileListSeparator) );
             $imgName = str_replace( '_', ' ', $imgName_wUnderscores );
-            $link = '?action=' . ( $wgFileListForceDownload ? 'download' : 'open' )
-                    . '&file=' . urlencode( $imgName_wUnderscores );
+            $link = '?action=open&file=' . urlencode( $imgName_wUnderscores );
             // if description exists, use this as filename
             $descr = $file->img_description;
             if($descr)
@@ -337,16 +336,16 @@ class FileList {
     }
     
     public static function onUnknownAction( $action, Page $page ) {
-        global $wgRequest, $wgOut;
+        global $wgRequest, $wgOut, $wgFileListForceDownload;
         
         $filename = $wgRequest->getVal( 'file' );
         $pageTitle = $page->getTitle()->getText();
         
         if ( $action == 'open' ) {
-            self::_openFile( $pageTitle, $filename );
-            return false;
-        } elseif ( $action == 'download' ) {
-            self::_downloadFile( $pageTitle, $filename );
+            if ( !$wgFileListForceDownload )
+                self::_openFile( $pageTitle, $filename );
+            else
+                self::_downloadFile( $pageTitle, $filename );
             return false;
         } elseif ( $action == 'delete_file' ) {
             // set redirect params
