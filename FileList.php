@@ -13,7 +13,7 @@ $wgFileListFileSizeSystem = 'si';
 $wgFileListSeparator = '_--_';
 
 // Force download instead of open
-$wgFileListForceDownload = false;
+$wgFileListForceDownload = true;
 
 // Set default permissions: only sysops are allowed to delete all files
 $wgGroupPermissions['*']['fl-delete-all'] = false;
