@@ -18,17 +18,22 @@ class FileList {
         $wgCacheEpoch = 'date +%Y%m%d%H%M%S';
     }
     
+
+    private static function _sanitize( $text ) {
+        return str_replace( ' ', '_', $text );
+    }
+
     private static function _getFilePrefix( $pageName) {
         global $wgFileListSeparator;
-        return str_replace( ' ', '_', $pageName ) . $wgFileListSeparator;
+        return self::_sanitize( $pageName ). $wgFileListSeparator;
     }
     
     private static function _listFilesWithPrefix( $prefix ) {
         // Get database connection
         $dbr =& wfGetDb( DB_SLAVE );
         
-        $prefix = str_replace( ' ', '_', $prefix );
         
+        $prefix = self::_sanitize( $prefix );
         // Perform query
         $result = $dbr->select(
             /* from     */ 'image',
@@ -371,8 +376,8 @@ class FileList {
         global $wgOut, $wgRequest;
         
         $pageTitle = $parser->getTitle()->getText();
-        $pageTitle = str_replace( ' ', '_', $pageTitle);
         
+        $pageTitle = self::_sanitize( $pageTitle );
         self::_disableCache();
         $parser->disableCache();
         
@@ -423,8 +428,8 @@ class FileList {
     public static function onMovePage( MovePageForm &$form, Title &$oldTitle, Title &$newTitle ) {
         $files = self::_listFilesWithPrefix( self::_getFilePrefix( $oldTitle->getText() ) );
         $pos = strlen( $oldTitle->getText() );
-        $newPrefix = str_replace( ' ', '_', $newTitle->getText() );
         
+        $newPrefix = self::_sanitize( $newTitle->getText() );
         foreach ( $files as $file ) {
             $newName = $newPrefix . substr( $file->img_name, $pos );
             $oldFile = Title::newFromText( 'File:' . $file->img_name );
