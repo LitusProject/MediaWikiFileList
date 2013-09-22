@@ -20,7 +20,7 @@ class FileList {
 
 
     private static function _sanitize( $text ) {
-        return str_replace( ' ', '_', $text );
+        return str_replace( array( ' ', '/' ), array( '_', '$2F' ), $text );
     }
 
     private static function _getFilePrefix( $pageName) {
