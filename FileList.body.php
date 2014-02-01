@@ -264,7 +264,7 @@ class FileList {
                 
                 $usertext = $file->img_user_text;
                 if ( !empty( $wgAutoloadClasses['ExtRealnames'] ) ) {
-                    $usertext = ExtRealNames::lookForBare( $usertext, '/.*/' );
+                    $usertext = ExtRealnames::lookForBare( $usertext, '/.*/' );
                 }
                 
                 $output .=
