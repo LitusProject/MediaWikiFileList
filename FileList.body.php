@@ -255,8 +255,15 @@ class FileList {
                 
             /* username */
             if( !$wgFileListAnonymous ) {
+                global $wgAutoloadClasses;
+                
+                $usertext = $file->img_user_text;
+                if ( !empty( $wgAutoloadClasses['ExtRealnames'] ) ) {
+                    $usertext = ExtRealNames::lookForBare( $usertext, '/.*/' );
+                }
+                
                 $output .=
-                   '<td>' . htmlspecialchars( $file->img_user_text ) . '</td>';
+                   '<td>' . htmlspecialchars( $usertext ) . '</td>';
             }
                 
             /** edit and delete **/
