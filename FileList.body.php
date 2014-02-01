@@ -366,7 +366,7 @@ class FileList {
         return true;
     }
     
-    /* Main function, called by the parser when a {{#filelist}} is encountered */
+    /* Main function, called by the parser when a {{#filelist:}} is encountered */
     public static function parserFunction( Parser &$parser ) {
         global $wgOut, $wgRequest;
         
